@@ -17,7 +17,10 @@ const Navbar = () => {
         {token ? (
           <>
             <Link to="/dashboard" style={styles.link}>Dashboard</Link>
-            <Link to="/log" style={styles.link}>Log Workout</Link>
+            <Link to="/progress" style={styles.link}>Progress</Link>
+            <Link to="/records" style={styles.link}>Records</Link>
+            <Link to="/log" style={styles.link}>Log</Link>
+            <Link to="/import" style={styles.link}>Import</Link>
             <button onClick={handleLogout} style={styles.button}>Logout</button>
           </>
         ) : (
@@ -33,30 +36,20 @@ const Navbar = () => {
 
 const styles = {
   nav: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '1rem 2rem',
-    background: '#111',
-    color: '#fff',
+    display: 'flex', justifyContent: 'space-between',
+    alignItems: 'center', padding: '1rem 2rem',
+    background: '#111', color: '#fff',
   },
   brand: {
-    color: '#fff',
-    textDecoration: 'none',
-    fontSize: '1.4rem',
-    fontWeight: 'bold',
-    letterSpacing: '2px',
+    color: '#fff', textDecoration: 'none',
+    fontSize: '1.4rem', fontWeight: 'bold', letterSpacing: '2px',
   },
   links: { display: 'flex', gap: '1.5rem', alignItems: 'center' },
   link: { color: '#ccc', textDecoration: 'none', fontSize: '0.9rem' },
   button: {
-    background: 'transparent',
-    border: '1px solid #555',
-    color: '#ccc',
-    padding: '0.4rem 1rem',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '0.9rem',
+    background: 'transparent', border: '1px solid #555',
+    color: '#ccc', padding: '0.4rem 1rem', borderRadius: '4px',
+    cursor: 'pointer', fontSize: '0.9rem',
   },
 };
 
