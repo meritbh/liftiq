@@ -13,6 +13,8 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/workouts', require('./routes/workouts'));
 
+app.use('/api/ai', require('./routes/ai'));
+
 app.get('/', (req, res) => res.send('LiftIQ API running'));
 
 const PORT = process.env.PORT || 5000;

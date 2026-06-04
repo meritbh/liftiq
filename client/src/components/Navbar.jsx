@@ -20,6 +20,7 @@ const Navbar = () => {
             <Link to="/progress" style={styles.link}>Progress</Link>
             <Link to="/records" style={styles.link}>Records</Link>
             <Link to="/log" style={styles.link}>Log</Link>
+            <Link to="/coach" style={styles.link}>Coach</Link>
             <Link to="/import" style={styles.link}>Import</Link>
             <button onClick={handleLogout} style={styles.button}>Logout</button>
           </>

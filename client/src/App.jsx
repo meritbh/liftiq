@@ -9,6 +9,7 @@ import Progress from './pages/Progress';
 import Records from './pages/Records';
 import Import from './pages/Import';
 import Navbar from './components/Navbar';
+import Coach from './pages/Coach';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/progress" element={<PrivateRoute><Progress /></PrivateRoute>} />
           <Route path="/records" element={<PrivateRoute><Records /></PrivateRoute>} />
           <Route path="/import" element={<PrivateRoute><Import /></PrivateRoute>} />
+          <Route path="/coach" element={<PrivateRoute><Coach /></PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
