@@ -16,7 +16,7 @@ const Coach = () => {
       const res = await api.post('/ai/analyze');
       setAnalysis(res.data.analysis);
     } catch (err) {
-      setAnalysis('Failed to get analysis. Make sure you have workouts logged.');
+      setAnalysis(err.response?.data?.message || 'Failed to get analysis. Make sure you have workouts logged.');
     } finally {
       setLoadingAnalysis(false);
     }
@@ -47,7 +47,7 @@ const Coach = () => {
     } catch (err) {
       setMessages([...newMessages, {
         role: 'assistant',
-        content: 'Something went wrong. Please try again.'
+        content: err.response?.data?.message || 'Something went wrong. Please try again.'
       }]);
     } finally {
       setLoadingChat(false);

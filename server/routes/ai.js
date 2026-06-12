@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const Workout = require('../models/Workout');
 const Anthropic = require('@anthropic-ai/sdk');
+const Usage = require('../models/Usage');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -64,9 +65,35 @@ const computeStats = (workouts) => {
   return { volume, stalls, recentWorkoutCount: recent.length };
 };
 
+const DAILY_LIMITS = {
+  analysis: 2,  // 2 analyses per day
+  chat: 15,     // 15 chat messages per day
+};
+
+const checkAndUpdateLimit = async (userId, type) => {
+  const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+  const usage = await Usage.findOneAndUpdate(
+    { userId, date: today },
+    { $inc: { [`${type}Count`]: 1 } },
+    { upsert: true, new: true }
+  );
+
+  const count = usage[`${type}Count`];
+  const limit = DAILY_LIMITS[type];
+
+  return { allowed: count <= limit, count, limit };
+};
+
 // POST /api/ai/analyze — get weekly analysis
 router.post('/analyze', auth, async (req, res) => {
   try {
+    const { allowed, count, limit } = await checkAndUpdateLimit(req.user.id, 'analysis');
+    if (!allowed) {
+      return res.status(429).json({
+        message: `Daily limit reached. You've used ${limit} analyses today. Resets at midnight.`
+      });
+    }
     const workouts = await Workout.find({ userId: req.user.id }).sort({ date: -1 });
     const history = formatWorkoutHistory(workouts);
     const stats = computeStats(workouts);
@@ -115,6 +142,12 @@ Give me:
 // POST /api/ai/chat — ask the AI coach a question
 router.post('/chat', auth, async (req, res) => {
   try {
+    const { allowed, count, limit } = await checkAndUpdateLimit(req.user.id, 'chat');
+    if (!allowed) {
+      return res.status(429).json({
+        message: `Daily limit reached. You've used ${limit} chat messages today. Resets at midnight.`
+      });
+    }
     const { message, conversationHistory } = req.body;
     const workouts = await Workout.find({ userId: req.user.id }).sort({ date: -1 });
     const history = formatWorkoutHistory(workouts);
