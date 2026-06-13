@@ -17,3 +17,5 @@ If you are developing a production application, we recommend using TypeScript wi
 
 # LiftIQ
 AI-powered gym progress tracker built with MERN stack + Claude API.
+
+Using 
