@@ -10,6 +10,7 @@ import Records from './pages/Records';
 import Import from './pages/Import';
 import Navbar from './components/Navbar';
 import Coach from './pages/Coach';
+import Landing from './pages/Landing';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
