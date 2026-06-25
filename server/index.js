@@ -26,3 +26,15 @@ app.get('/', (req, res) => res.send('LiftIQ API running'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Keep server warm on Render free tier
+if (process.env.NODE_ENV === 'production') {
+  const RENDER_URL = 'https://liftiq-api-jeco.onrender.com';
+  setInterval(async () => {
+    try {
+      await fetch(RENDER_URL);
+    } catch (err) {
+      console.log('Ping failed:', err.message);
+    }
+  }, 10 * 60 * 1000); // every 10 minutes
+}
